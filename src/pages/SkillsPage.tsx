@@ -1,26 +1,27 @@
+import { PageHeader } from "../components/PageHeader";
+
 /**
  * スキルページ
  */
 export function SkillsPage() {
   return (
     <div className="max-w-2xl mx-auto px-4">
-      <header className="mb-12 text-center">
-        <h1 className="text-4xl font-black text-gray-900 tracking-tight">
-          My Skills
-        </h1>
-        <p className="text-gray-500 mt-3 text-lg">技術スタック</p>
-      </header>
-      <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+      <PageHeader title="スキルセット" />
+      <div className="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 transition-colors duration-300">
         <div className="flex items-center gap-4 mb-6">
-          <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-2xl">
+          <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center text-2xl">
             👨‍💻
           </div>
           <div>
-            <h2 className="text-xl font-bold text-gray-800">F.D</h2>
-            <p className="text-sm text-gray-500">Full-stack Engineer</p>
+            <h2 className="text-xl font-bold text-gray-800 dark:text-slate-100">
+              F.D
+            </h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Full-stack Engineer
+            </p>
           </div>
         </div>
-        <div className="space-y-4 text-gray-700 leading-relaxed">
+        <div className="space-y-4 text-gray-700 dark:text-slate-300 leading-relaxed">
           <p>■言語</p>
           <p>
             Java17（4年9ヵ月） / TypeScript（3年） / JavaScript（3年） /

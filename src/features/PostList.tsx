@@ -1,17 +1,31 @@
-import { PostCard } from '../components/PostCard';
+import { PostCard } from "../components/PostCard";
+import { usePosts } from "../hooks/usePosts";
 
-const MOCK_POSTS = [
-  { id: 1, title: "Reactを始めた日", content: "ViteとTailwindのセットアップ...", date: "2026-04-01" },
-  { id: 2, title: "TypeScriptの型安全", content: "Propsに型をつけることで安心開発。", date: "2026-04-02" },
-  { id: 3, title: "Java 21の仮想スレッド", content: "バックエンドも最新技術で攻めたい。", date: "2026-04-03" },
-];
+export const PostList = () => {
+  const { posts, isLoading, error } = usePosts();
 
-export function PostList() {
+  if (isLoading) {
+    return (
+      <div className="text-center py-12 text-gray-500">
+        記事を読み込んでいます...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-12 text-red-500">
+        <p className="font-bold">エラーが発生しました</p>
+        <p className="text-sm mt-2">{error.message}</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-6">
-      {MOCK_POSTS.map((post) => (
-        <PostCard key={post.id} {...post} />
+    <div className="space-y-8">
+      {posts.map((post) => (
+        <PostCard key={post.id} post={post} />
       ))}
     </div>
   );
-}
+};

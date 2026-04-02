@@ -1,8 +1,9 @@
-import type { RouteObject } from 'react-router-dom';
-import { Layout } from '../components/Layout';
-import { HomePage } from '../pages/HomePage';
-import { AboutPage } from '../pages/AboutPage';
-import { SkillsPage } from '../pages/SkillsPage';
+import type { RouteObject } from "react-router-dom";
+import { Layout } from "../components/Layout";
+import { HomePage } from "../pages/HomePage";
+import { AboutPage } from "../pages/AboutPage";
+import { SkillsPage } from "../pages/SkillsPage";
+import { CreatePostPage } from "../pages/CreatePostPage";
 
 /**
  * アプリケーションの全ルート定義
@@ -10,19 +11,17 @@ import { SkillsPage } from '../pages/SkillsPage';
  */
 export const routes: RouteObject[] = [
   {
-    path: '/',
+    path: "/",
     element: <Layout />, // 共通のガワ
     children: [
       { index: true, element: <HomePage /> }, // TOPページ (/)
-      { path: 'about', element: <AboutPage /> }, // 自己紹介 (/about)
-      { path: 'skills', element: <SkillsPage /> }, // 自己紹介 (/about)
-      
-      // 今後増やしたいページがあれば、ここに行を足すイメージです
-      // { path: 'blog/:id', element: <PostDetailPage /> },
+      { path: "about", element: <AboutPage /> }, // 自己紹介 (/about)
+      { path: "skills", element: <SkillsPage /> }, // スキル (/skills)
+      { path: "posts/new", element: <CreatePostPage /> }, // 記事作成 (/posts/new)
     ],
   },
   {
-    path: '*',
+    path: "*",
     element: <HomePage />, // 404の時はとりあえずTOPへ
   },
 ];
