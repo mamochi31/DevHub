@@ -1,44 +1,54 @@
 import { useEffect, useState } from "react";
-import { MOCK_POSTS } from "../data/mock";
 import type { Post } from "../types/Post";
-
-// 1秒待ってからモックデータを返す、擬似的なAPI関数
-const fetchPosts = (): Promise<Post[]> => {
-  console.log("Fetching posts...");
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      console.log("Posts fetched!");
-      resolve(MOCK_POSTS);
-      
-      // エラー時のUIを確認したい場合は、上の resolve(MOCK_POSTS); をコメントアウトし、
-      // 下の reject を有効にしてみてください。
-      // reject(new Error("サーバーからの応答がありません。"));
-    }, 1000);
-  });
-};
+import { api } from "../utils/api";
 
 export const usePosts = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
-  useEffect(() => {
-    const loadPosts = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        const fetchedPosts = await fetchPosts();
-        setPosts(fetchedPosts);
-      } catch (err) {
-        console.error("記事の取得に失敗しました:", err);
-        setError(err instanceof Error ? err : new Error("Unknown error"));
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const fetchPosts = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
 
-    loadPosts();
+      // Spring BootのAPIからデータを取得
+      const response = await api.get("/api/posts");
+
+      if (!response.ok) {
+        throw new Error("データの取得に失敗しました");
+      }
+
+      const fetchedPosts = await response.json();
+      setPosts(fetchedPosts);
+    } catch (err) {
+      console.error("記事の取得に失敗しました:", err);
+      setError(err instanceof Error ? err : new Error("Unknown error"));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchPosts();
   }, []);
 
-  return { posts, isLoading, error };
+  // 記事を削除する関数
+  const deletePost = async (id: number) => {
+    try {
+      const response = await api.delete(`/api/posts/${id}`);
+
+      if (!response.ok) {
+        throw new Error("記事の削除に失敗しました");
+      }
+
+      // Stateから削除された記事を即座に反映
+      setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id));
+    } catch (err) {
+      console.error(err);
+      alert("記事の削除中にエラーが発生しました。");
+    }
+  };
+
+  return { posts, isLoading, error, deletePost };
 };

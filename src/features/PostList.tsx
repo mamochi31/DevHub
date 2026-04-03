@@ -2,7 +2,7 @@ import { PostCard } from "../components/PostCard";
 import { usePosts } from "../hooks/usePosts";
 
 export const PostList = () => {
-  const { posts, isLoading, error } = usePosts();
+  const { posts, isLoading, error, deletePost } = usePosts();
 
   if (isLoading) {
     return (
@@ -24,7 +24,7 @@ export const PostList = () => {
   return (
     <div className="space-y-8">
       {posts.map((post) => (
-        <PostCard key={post.id} post={post} />
+        <PostCard key={post.id} post={post} onDelete={deletePost} />
       ))}
     </div>
   );

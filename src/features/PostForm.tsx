@@ -5,9 +5,14 @@ import { postFormSchema, type PostFormValues } from "../schemas/postSchema";
 type PostFormProps = {
   onSubmit: (data: PostFormValues) => Promise<void>;
   submitText?: string;
+  defaultValues?: PostFormValues;
 };
 
-export function PostForm({ onSubmit, submitText = "Post" }: PostFormProps) {
+export function PostForm({
+  onSubmit,
+  submitText = "Post",
+  defaultValues,
+}: PostFormProps) {
   const {
     register,
     handleSubmit,
@@ -15,6 +20,7 @@ export function PostForm({ onSubmit, submitText = "Post" }: PostFormProps) {
     reset,
   } = useForm<PostFormValues>({
     resolver: zodResolver(postFormSchema),
+    defaultValues,
   });
 
   // フォーム送信時の内部処理

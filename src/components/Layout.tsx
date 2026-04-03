@@ -1,9 +1,11 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { NavigationLink } from "./NavigationLink";
 import { useTheme } from "../contexts/ThemeContext";
+import { useAuth } from "../contexts/AuthContext";
 
 export function Layout() {
   const { theme, toggleTheme } = useTheme();
+  const { isAuthenticated, logout } = useAuth();
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900 flex flex-col font-sans text-slate-900 dark:text-slate-50 transition-colors duration-300">
@@ -20,7 +22,18 @@ export function Layout() {
             <NavigationLink to="/">Home</NavigationLink>
             <NavigationLink to="/about">About</NavigationLink>
             <NavigationLink to="/skills">Skills</NavigationLink>
-            <NavigationLink to="/posts/new">Create Post</NavigationLink>
+
+            {/* ログイン状態に応じて Login / Logout を切り替え */}
+            {isAuthenticated ? (
+              <button
+                onClick={logout}
+                className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 transition-colors"
+              >
+                Logout
+              </button>
+            ) : (
+              <NavigationLink to="/login">Login</NavigationLink>
+            )}
             <button
               onClick={toggleTheme}
               className="ml-4 flex items-center gap-1.5 p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors focus:outline-none"

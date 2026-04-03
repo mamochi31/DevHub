@@ -5,7 +5,7 @@ import { PageHeader } from "../components/PageHeader";
  */
 export function AboutPage() {
   return (
-    <div className="max-w-2xl mx-auto px-4">
+    <div className="max-w-4xl mx-auto px-4">
       <PageHeader title="自己紹介" />
       <div className="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 transition-colors duration-300">
         <div className="flex items-center gap-4 mb-6">
